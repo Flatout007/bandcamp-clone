@@ -10,6 +10,8 @@
 
 # production
 /build
+/src/services/firebase.ts
+
 
 # misc
 .DS_Store

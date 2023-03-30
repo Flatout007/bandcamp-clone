@@ -1,38 +1,133 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-style: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/**
+   * @STYLES FOR THE APP
+  */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+html {
+  min-width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.46668;
 }
 
-.App-link {
-  color: #61dafb;
+/**
+   * @STYLES FOR THE ARTIST PROFILE
+*/
+
+.artist-profile {
+  width: 60em;
+  margin-left: auto;
+  margin-right: auto;
+}
+  
+/**
+   * @STYLES FOR THE PLAYER
+*/ 
+
+.left {
+  transform: rotate(180deg);
 }
 
-@keyframes App-logo-spin {
+  
+/**
+   * @STYLES FOR THE DRAG AND DROP
+*/ 
+
+.highlight {
+  border: 1px solid #1B73E8 !important;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none !important;
+}
+
+.big {
+ background: blue;
+}
+
+/**
+   * @STYLES FOR THE LOGIN SHAKE ANIMATION
+*/ 
+/* This animation will shake the modal container left and right a few times */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+  20%, 40%, 60%, 80% { transform: translateX(10px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+
+/**
+   * @STYLES FOR THE LOGIN SHAKE ANIMATION
+   These animations involve dropping the first album from the top
+   and sliding it along the rest along the container in a step-wise fashion
+*/ 
+.album {
+  transition: all .1s;
+}
+
+.album:nth-child(1) {
+  animation: come-in .33s ease-in forwards;
+}
+
+.album:nth-child(10) {
+  animation: go-out .33s ease-out forwards;
+}
+
+.album {
+  animation: move-backward .33s ease-out forwards;
+  animation-direction: reverse;
+}
+
+@keyframes come-in {
   from {
-    transform: rotate(0deg);
+    transform: translateX(-100px) translateY(-200px)
+  };
+
+  to { 
+    transform: translateX(0px) 
+    translateY(0)
+  };
+
+  0% {width: 10px;height: 10px; opacity: 0;}
+
+  100% { opacity: 1.0}
+}
+
+@keyframes go-out {
+  from {
+    transform: translateX(-2px)
+  };
+
+  to { 
+    transform: translateX(0px) 
+    translateY(0)
+  };
+
+  0% {width: 10px;height: 10px; opacity: 0;}
+
+  100% { opacity: 1.0;}
+}
+
+@keyframes move-backward {
+  from {
+    transform: translateX(0);
   }
   to {
-    transform: rotate(360deg);
+    transform: translateX(-100px);
   }
 }
