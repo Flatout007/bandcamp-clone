@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, ReactElement, Ref, SetStateAction, useEffect, useRef, useState } from "react";
+import { BaseSyntheticEvent, ReactElement, useEffect, useRef, useState } from "react";
 import { storage } from "../../services/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { StyledComponent } from "styled-components";

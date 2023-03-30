@@ -6,8 +6,6 @@ import { create } from "../../redux/async_thunks/albumThunk";
 import { ArtistState, RootState } from "../../redux/store/store";
 import { AlbumPayload } from "../../types";
 import { ref, uploadBytes, UploadResult, getDownloadURL } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
-import { reset } from "../../redux/slices/albumSlice";
 
 
 export interface AlbumFormEditProps {
