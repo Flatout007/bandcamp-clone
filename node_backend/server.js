@@ -22,8 +22,13 @@ app.use(express.urlencoded({ extended: false }));
 // custom error handler
 app.use(Errors);
 // allow cors domains
-app.options("*", cors({ origin: 'https://bandcamp-clone.onrender.com', optionsSuccessStatus: 200 }));
-app.use(cors({ origin: "https://bandcamp-clone.onrender.com", optionsSuccessStatus: 200 }));
+app.options("*", cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
+app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://build-flatout007.vercel.app");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 
 /**@routes */
