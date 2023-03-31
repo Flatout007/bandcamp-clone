@@ -16,15 +16,17 @@ connectDB();
 
 /**@express @middleware => middleware functions that run during req and res */
 // enable viewing json request in console
-app.use(express.json()); 
+app.use(express.json());
 // enables use of urlencoded key value pairs for constructing request
-app.use(express.urlencoded({ extended: false })); 
+app.use(express.urlencoded({ extended: false }));
 // custom error handler
 app.use(Errors);
-// allow cors domains
-app.options("*", cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
-app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }));
-
+// allow cors
+const corsOptions = {
+    origin: ['http://localhost:3000', 'https://build-flatout007.vercel.app'],
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 
 /**@routes */
