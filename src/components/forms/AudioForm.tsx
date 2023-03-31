@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, TrackState } from "../../redux/store/store";
 import { reset } from "../../redux/slices/trackSlice";
 
-
 export default function TrackForm(): ReactElement {
 
     const dropAreaRef = useRef<HTMLInputElement>(null);
