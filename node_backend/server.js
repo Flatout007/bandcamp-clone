@@ -22,8 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 // custom error handler
 app.use(Errors);
 // allow cors domains
-app.options("*", cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
-app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }));
+app.options("*", cors({ origin: 'https://bandcamp-clone.onrender.com', optionsSuccessStatus: 200 }));
+app.use(cors({ origin: "https://bandcamp-clone.onrender.com", optionsSuccessStatus: 200 }));
 
 
 /**@routes */
