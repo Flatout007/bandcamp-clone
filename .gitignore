@@ -6,14 +6,14 @@
 .pnp.js
 .env
 
+
 # testing
 /coverage
 
 # production
 /build
-/node_backend
+/node_backend/.env
 /node_backend/node_modules
-./node_backend
 
 # misc
 .DS_Store
