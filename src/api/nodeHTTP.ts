@@ -24,7 +24,7 @@ function setSignedArtist(response: any) {
 
 export const signInArtist = async function (artistData: any): Promise<AxiosResponse> {
 
-    const API_URL = "http://localhost:5000/artists/signin";
+    const API_URL = "https://bandcamp-clone.onrender.com/artists/signin";
 
     const res = await axios({
         method: "post",
@@ -44,7 +44,7 @@ export const signInArtist = async function (artistData: any): Promise<AxiosRespo
 
 export const signUpArtist = async function (artistData: any): Promise<any> {
 
-    const API_URL = "http://localhost:5000/artists/signup";
+    const API_URL = "https://bandcamp-clone.onrender.com/artists/signup";
 
     const res = await axios({
         method: "post",
@@ -70,7 +70,7 @@ export const signUpArtist = async function (artistData: any): Promise<any> {
 
 export const editArtist = async (artistPayload: any): Promise<AxiosResponse> => {
 
-    const API_URL = `http://localhost:5000/artists/${artistPayload._id}`;
+    const API_URL = `https://bandcamp-clone.onrender.com/artists/${artistPayload._id}`;
 
     const artist = getSignedArtist();
 
@@ -87,7 +87,7 @@ export const editArtist = async (artistPayload: any): Promise<AxiosResponse> => 
 
 export const getAllAlbums = async function (): Promise<AxiosResponse> {
 
-    const API_URL = "http://localhost:5000/albums";
+    const API_URL = "https://bandcamp-clone.onrender.com/albums";
 
     const res = await axios.get(API_URL);
 
@@ -96,7 +96,7 @@ export const getAllAlbums = async function (): Promise<AxiosResponse> {
 
 export const getArtistAlbums = async function (artistId: string): Promise<AxiosResponse> {
 
-    const API_URL = `http://localhost:5000/artists/${artistId}`;
+    const API_URL = `https://bandcamp-clone.onrender.com/artists/${artistId}`;
 
     const res = await axios.get(API_URL);
 
@@ -105,7 +105,7 @@ export const getArtistAlbums = async function (artistId: string): Promise<AxiosR
 
 export const getAllArtist = async function (): Promise<AxiosResponse> {
 
-    const API_URL = `http://localhost:5000/artists/`;
+    const API_URL = `https://bandcamp-clone.onrender.com/artists/`;
 
     const res = await axios.get(API_URL);
 
@@ -114,7 +114,7 @@ export const getAllArtist = async function (): Promise<AxiosResponse> {
 
 export const createAlbum = async function (albumPayload: any): Promise<AxiosResponse> {
 
-    const API_URL = "http://localhost:5000/albums";
+    const API_URL = "https://bandcamp-clone.onrender.com/albums";
 
     const artist = getSignedArtist();
 
@@ -133,7 +133,7 @@ export const editAlbum = async function (albumPayload: any): Promise<AxiosRespon
 
     const artist = getSignedArtist();
 
-    const API_URL = `http://localhost:5000/albums/${artist.id}`;
+    const API_URL = `https://bandcamp-clone.onrender.com/albums/${artist.id}`;
 
     const headers = {
         Authorization: `Bearer ${artist.token}`
@@ -148,7 +148,7 @@ export const editAlbum = async function (albumPayload: any): Promise<AxiosRespon
 
 export const createTracks = async function (trackPayload: any): Promise<AxiosResponse> {
 
-    const API_URL = "http://localhost:5000/tracks";
+    const API_URL = "https://bandcamp-clone.onrender.com/tracks";
 
     const artist = getSignedArtist();
 
@@ -163,7 +163,7 @@ export const createTracks = async function (trackPayload: any): Promise<AxiosRes
 
 export const getAlbumTracks = async function (albumId: string): Promise<AxiosResponse> {
 
-    const API_URL = `http://localhost:5000/albums/${albumId}`;
+    const API_URL = `https://bandcamp-clone.onrender.com/albums/${albumId}`;
 
     const res = await axios.get(API_URL);
 
