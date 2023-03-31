@@ -11,6 +11,8 @@
 
 # production
 /build
+/node_backend/.env
+/node_backend/node_modules
 
 # misc
 .DS_Store
