@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(Errors);
 // allow cors
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://build-flatout007.vercel.app'],
+    origin: ['http://localhost:3000', 'https://build-flatout007.vercel.app', 'https://build-mu-vert.vercel.app'],
     optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
