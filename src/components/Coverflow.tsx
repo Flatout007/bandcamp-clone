@@ -34,6 +34,9 @@ export default function Coverflow(props: CoverflowProps): ReactElement {
 
     useEffect(() => {
 
+        if (!albums)
+        return;
+
         let interval = setInterval(() => {
             buttonRef.current?.click();
         }, randomRange(1000, 8000));
@@ -48,7 +51,7 @@ export default function Coverflow(props: CoverflowProps): ReactElement {
             }, randomRange(1000, 8000))
         });
 
-    }, []);
+    }, [albums]);
 
     function slide() {
 

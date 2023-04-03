@@ -1,10 +1,10 @@
 
-import { ref, uploadBytes, UploadResult, getDownloadURL, deleteObject } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from "../../services/firebase";
 import { BaseSyntheticEvent, ReactElement, useEffect, useRef, useState } from "react";
 import styled, { StyledComponent } from "styled-components";
 import { TrackPayload } from "../../types";
-import { useNavigate, useParams, redirect } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { create } from "../../redux/async_thunks/trackThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, TrackState } from "../../redux/store/store";
@@ -32,10 +32,6 @@ export default function TrackForm(): ReactElement {
 
     const [loading, setLoading] = useState<any>({
         isLoading: false
-    });
-
-    const [mark, setMark] = useState<any>({
-        deletion: ""
     });
 
     const [submit, setSubmit] = useState<any>({
@@ -209,34 +205,6 @@ export default function TrackForm(): ReactElement {
 
             return obj;
         });
-
-        // for (let i = 0; i < tracks.length; i++) {
-
-        //     const file = tracks[i];
-        //     const title = titles[i];
-        //     const reference = ref(storage, "tracks/" + title);
-        //     const metadata = { contentType: "m4a", customMetadata: { name: title as string } };
-
-
-        //     uploadBytes(reference, file as File, metadata).then(async (snapshot: UploadResult) => {
-        //         const url = await getDownloadURL(snapshot.ref);
-
-        //         // copy over previous payload and append urls to Track payload
-        //         setFormData((prevPayload: TrackPayload): TrackPayload => {
-        //             const obj = {
-        //                 ...prevPayload,
-        //                 urls: [...prevPayload.urls, url]
-        //             };
-
-        //             return obj;
-        //         });
-
-        //         setFirebaseRefs((prevState: any): any => {
-        //             return { references: [...prevState.references, snapshot.ref] }
-        //         });
-        //     });
-        // }
-
 
         const uploadPromises = tracks.map((file, i) => {
 
