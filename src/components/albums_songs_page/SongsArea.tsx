@@ -63,7 +63,7 @@ export default function Songs(props: SongsProps): ReactElement {
         dispatch<any>(index(null));
         dispatch<any>(getAlbums());
 
-    }, [id]);
+    }, [dispatch, id]);
 
     useEffect(() => {
 
@@ -222,6 +222,8 @@ export default function Songs(props: SongsProps): ReactElement {
                 break;
             }
         }
+    } else {
+        return <></>;
     }
 
     if (artists) {
@@ -235,7 +237,10 @@ export default function Songs(props: SongsProps): ReactElement {
                 break;
             }
         }
+    } else {
+        return <></>;
     }
+
 
     if (tracks) {
 
@@ -256,6 +261,8 @@ export default function Songs(props: SongsProps): ReactElement {
                 </div>
             )
         }
+    } else {
+        return <></>;
     }
 
     return (<>
@@ -323,7 +330,6 @@ export default function Songs(props: SongsProps): ReactElement {
 const PlayContainer: StyledComponent<"div", any> = styled.div`
     max-width: 30px;
     height: 1.5em;
-    /* position: absolute; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -335,11 +341,12 @@ const PlayContainer: StyledComponent<"div", any> = styled.div`
 
 const Container: StyledComponent<"div", any> = styled.div`
     display: flex;
-    height: fit-content;
+    height: 1600px;
     width: 100%;
+    background: #212121;
 `;
 const InnerContainer: StyledComponent<"div", any> = styled.div`
-    height: 100vh;
+    height: 100%;
     width: 95%;
     display: flex;
     justify-content: space-around;
@@ -435,10 +442,12 @@ const Copyright: StyledComponent<"h5", any> = styled.h5`
 const CoverContainer: StyledComponent<"div", any> = styled.div`
     height: 80%;
     width: 80%;
-    margin-left: 5px;
+    position: relative;
 `;
 
 const Artwork: StyledComponent<"img", any> = styled.img`
-    height: 35%;
-    width: 100%;
+    height: 25%;
+    width: 90%;
+    position: absolute;
+    right: 10px;
 `;

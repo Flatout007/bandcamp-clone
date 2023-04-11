@@ -10,10 +10,7 @@ import { reset } from "../../redux/slices/albumSlice";
 import { edit } from "../../redux/async_thunks/artistThunk";
 
 
-export interface PhotoFormProps {
-}
-
-export default function PhotoForm(props: PhotoFormProps): ReactElement {
+export default function PhotoForm(): ReactElement {
 
     const dropAreaRef = useRef<HTMLDivElement>(null);
 

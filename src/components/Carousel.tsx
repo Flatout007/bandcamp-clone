@@ -1,63 +1,136 @@
 import styled, { StyledComponent } from "@emotion/styled";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
+import { ArtistState } from "../redux/store/store";
+import { useNavigate } from "react-router-dom";
 
 export interface CarouselProps {
+    artists: ArtistState[];
 }
 
-export default function Carousel(props: CarouselProps): ReactElement {
+export default function Carousel({ artists }: CarouselProps): ReactElement {
+
+    const smallItems: Array<ReactElement> = [];
+
+    const [items, setItems] = useState<any>([]);
+
+    const [positions, setPositions] = useState<any>({
+        start: 0,
+        end: 4
+    });
+
+    const navigate = useNavigate();
+
+    const { start, end } = positions;
+
+    useEffect((): void => {
+
+        if (artists) {
+
+            for (let i = 0; i < artists.length; i++) {
+
+                const { photo, bio, location, name, _id } = artists[i];
+
+                if (i === start) {
+                    smallItems.push(
+                        <Big 
+                        
+                        onClick={() => {
+                            navigate(`/artist_albums_page/${_id}`)
+                        }}
+                        style={{
+                            background: `url(${photo}) no-repeat`,
+                        }}>
+                            <BigTextContainer>
+                                <BigText style={{ fontSize: "1.7em" }}>
+                                    {name}
+                                </BigText>
+
+                                <BigText>
+                                    {bio}
+                                </BigText>
+
+                                <p style={{ marginLeft: "16px", textShadow: "black 0px 0px 10px" }}>
+                                    {location}
+                                </p>
+
+                            </BigTextContainer>
+                        </Big>)
+                } else {
+
+                    smallItems.push(<Small 
+                    
+                        onClick={() => {
+                            navigate(`/artist_albums_page/${_id}`);
+                        }}
+                    style={{
+                        background: `url(${photo}) no-repeat`,
+
+                    }} key={i}>
+                        <SmallHover></SmallHover>
+                        <SmallTextContainer>
+                            <SmallText>
+                                {name}
+                            </SmallText>
+                            <SmallText>
+                                {location}
+                            </SmallText>
+                        </SmallTextContainer>
+                    </Small>);
+                }
+            }
+        }
+
+        setItems((): Array<any> => {
+            return [...smallItems.slice(start, end)];
+        });
+
+    }, [artists, start, end]);
+
+
+    useEffect(() => {
+        return (): void => {
+            setPositions((): any => {
+
+                return { start, end };
+            });
+        }
+    }, []);
+
+    useEffect((): void => {
+
+        setTimeout((): void => {
+
+            if (artists.length) {
+                setPositions((prevPositions: any): any => {
+
+                    let newStart = (prevPositions.start + 1) % artists.length;
+                    let newEnd = (prevPositions.end + 1) % artists.length;
+
+                    if (newStart >= newEnd) {
+                        newEnd = newStart + 3;
+                        newStart = 0;
+                    }
+
+                    if (newStart === 0 && newEnd !== 3) {
+                        newEnd = 4;
+                    }
+
+                    return { start: newStart, end: newEnd };
+                });
+            }
+        }, 30000);
+    }, [start, end, artists.length]);
+
     return (
         <div>
             <Container>
-                <Big style={{
-                    background: "url('https://f4.bcbits.com/img/0030512038_171.jpg') no-repeat",
-                    backgroundSize: "100% 100%"
-                }}>
-                    <BigTextContainer>
-                        <BigText>
-                            The Ephemeral Life of Blog Rap
-                        </BigText>
-                        <p style={{ marginLeft: "16px", textShadow: "black 0px 0px 10px" }}>
-                            Rap
-                        </p>
-                    </BigTextContainer>
-                </Big>
-                <SmallContainer style={{}}>
-                    <Small style={{
-                        background: "url(https://f4.bcbits.com/img/0030495463_170.jpg) no-repeat",
-                        backgroundSize: "100% 100%"
-                    }}>
-                        <SmallHover></SmallHover>
-                        <SmallTextContainer>
-                            <SmallText>
-                                Lorem ipsum dolor sit amet
-                            </SmallText>
-                            <p style={{ marginLeft: "10px", textShadow: "black 0px 0px 10px" }}>Pop</p>
-                        </SmallTextContainer>
-                    </Small>
-                    <Small style={{
-                        background: "url('https://f4.bcbits.com/img/0030511344_170.jpg') no-repeat",
-                        backgroundSize: "100% 100%"
-                    }}>
-                        <SmallHover></SmallHover>
-                        <SmallTextContainer>
-                            <SmallText>
-                                The Hip Hop Show
-                            </SmallText>
-                            <p style={{ marginLeft: "10px", textShadow: "black 0px 0px 10px" }}>JPop</p>
-                        </SmallTextContainer>
-                    </Small>
-                    <Small style={{
-                        background: "url(https://f4.bcbits.com/img/0030470769_170.jpg) no-repeat",
-                        backgroundSize: "100% 100%"
-                    }}>
-                        <SmallHover></SmallHover>
-                        <SmallTextContainer>
-                            <SmallText>
-                                Ut enim ad minim veniam, quis
-                            </SmallText>
-                            <p style={{ marginLeft: "10px", textShadow: "black 0px 0px 10px" }}>Rap</p>
-                        </SmallTextContainer>
-                    </Small>
+
+                {items[0]}
+
+                <SmallContainer>
+
+                    {items.slice(1)}
+
                 </SmallContainer>
             </Container>
         </div>
@@ -81,9 +154,13 @@ const Big: StyledComponent<"div", any> = styled.div`
    height: 100%;
    width: 40em;
    position: relative;
+   height: 100%;
+   width: 100%;
+   background-position: 50% 30% !important;
+   cursor: pointer;
    
     @media only screen and (min-width: 1400px) {
-        width: 50%;
+        width: 45%;
     }
 
     &:hover {
@@ -101,8 +178,12 @@ const SmallContainer: StyledComponent<"div", any> = styled.div`
 `;
 const Small: StyledComponent<"div", any> = styled.div`
     position: relative;
-    min-height: 33.3%;
+    height: 33.3%;
     border: 1px solid black;
+    width: 100%;
+    background-size: cover !important;
+    background-position: 50% 30% !important;
+    cursor: pointer;
 `;
 const SmallHover: StyledComponent<"div", any> = styled.div`
     position: absolute;
@@ -155,7 +236,7 @@ const SmallText: StyledComponent<"p", any> = styled.p`
     font-size: 1.1rem;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
+    overflow-x: hidden;
     text-shadow: black 0px 0px 10px;
     font-weight: 600;
 `;

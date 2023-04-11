@@ -1,8 +1,10 @@
 
 import { ReactElement, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled, { StyledComponent } from "styled-components";
 import { AlbumPayload } from "../../types";
+import { useSelector } from "react-redux";
+import { ArtistState, RootState } from "../../redux/store/store";
 
 export interface CoverflowProps {
   album: AlbumPayload
@@ -16,7 +18,15 @@ export default function AlbumItem(props: CoverflowProps): ReactElement {
 
   const album = props.album;
 
+  const { id } = useParams();
+
+  const artistState = useSelector((state: RootState): ArtistState => {
+    return state.artist;
+  });
+
   const { artwork, title, genre, _id } = album;
+
+  const { artist } = artistState;
 
   function showContainerB(): void {
     containerB.current?.classList.remove("hide");
@@ -34,34 +44,40 @@ export default function AlbumItem(props: CoverflowProps): ReactElement {
 
   return (
     <div>
-      <Container>
+      <Container onClick={(): void => {
+        navigate(`/albums_songs_page/${props?.album._id}/${props?.album.artist_id}`);
+      }}>
 
         <img src={artwork as string} alt="album cover" style={{ position: "absolute", height: "55%", width: "75%" }} />
 
         <Cover
-          onClick={() => {
-
-          }}
           onMouseEnter={showContainerB}
           onMouseLeave={hideContainerB}
         >
           <ContainerB ref={containerB}>
-            <AddSongs
-              onClick={(): void => {
-                navigate(`${_id}/tracks/new`);
-              }}
-            >Add Tracks
-            </AddSongs>
-            <Edit
-              onClick={(): void => {
-                navigate("./edit");
-              }}
-            >Edit
-            </Edit>
-            <Delete
-              
-            >Delete
-            </Delete>
+
+            {artist && artist._id === id &&
+              <>
+                <AddSongs
+                  onClick={(e: any): void => {
+                    e.stopPropagation();
+                    navigate(`/artist_albums_page/${artist._id}/${props?.album._id}/tracks/new`);
+                  }}
+                >Add Tracks
+                </AddSongs>
+                <Edit
+                  onClick={(e: any): void => {
+                    e.stopPropagation();
+                    navigate(`/artist_albums_page/${_id}/edit`);
+                  }}
+                >Edit
+                </Edit>
+                <Delete
+
+                >Delete
+                </Delete>
+              </>
+            }
           </ContainerB>
         </Cover>
 
@@ -127,6 +143,7 @@ const Edit: StyledComponent<"button", any> = styled.button`
     border-radius: 0.8em;
     font-weight: 600;
     cursor: pointer;
+
 `;
 const Delete: StyledComponent<"button", any> = styled.button`
     height: 2em;

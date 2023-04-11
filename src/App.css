@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   border-style: none;
+ 
 }
 
 /**
@@ -14,6 +15,18 @@ html {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   line-height: 1.46668;
+}
+
+/**
+   * @STYLES FOR THE ARTIST BACKGROUND PHOTO ON ALBUMS AND
+   * SONGS PAGES
+*/
+
+.artist-photo-background {
+  background-position:  50%, 20% !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  background-color: black !important;
 }
 
 /**
@@ -129,5 +142,15 @@ html {
   }
   to {
     transform: translateX(-100px);
+  }
+}
+
+
+/**
+   * @STYLES FOR THE SPINNER ANIMATION
+*/ 
+@keyframes spinner {
+  100% {
+    transform: rotate(360deg);
   }
 }

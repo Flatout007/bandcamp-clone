@@ -23,26 +23,28 @@ export default function Albums(props: AlbumsProps): ReactElement {
         return state.artist;
     });
 
-    const {id} = useParams();
+    const { id } = useParams();
 
-    const { artist, albums, artists } = artistState
+    const { albums, artists } = artistState;
 
     useEffect((): void => {
-        dispatch<any>(getAlbums(artist._id));
+        dispatch<any>(getAlbums(id));
         dispatch<any>(index(null));
-    }, []); 
+    }, [id]);
 
     if (albums) {
         for (let i = 0; i < albums.length; i++) {
-            
+
             const album = albums[i];
 
-            albumsArray.push(<AlbumItem album={album} key={i.toString()} />);
+            albumsArray.push(
+                <AlbumItem album={album} key={i.toString()} />
+            );
         }
     }
 
     if (artists) {
-        for (let i = 0; i<artists.length; i++) {
+        for (let i = 0; i < artists.length; i++) {
 
             const artist = artists[i];
 
@@ -76,6 +78,7 @@ const Container: StyledComponent<"div", any> = styled.div`
     align-items: center;
     height: 100vh;
     width: 100%;
+    background: #212121;
 `;
 const InnerContainer: StyledComponent<"div", any> = styled.div`
     height: 85%;

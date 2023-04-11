@@ -6,8 +6,11 @@ import CoverflowC from "./CoverflowC";
 import Scroller from "./Scroller";
 import { getAlbums } from "../redux/async_thunks/albumThunk";
 import { index } from "../redux/async_thunks/artistThunk";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AlbumState, ArtistState, RootState } from "../redux/store/store";
+import Carousel from "./Carousel";
+import Coverflow from "./Coverflow";
+import { Spinner } from "./Spinner";
 
 export interface MainProps {
 }
@@ -26,18 +29,38 @@ export default function Main(props: MainProps): ReactElement {
 
     const { albums } = albumState;
 
+    const dispatch = useDispatch();
+
     // get last 5 albums
-    const currentAlbums = albums.slice(albums.length-5, albums.length);
+    const currentAlbums = albums?.slice(albums.length - 5, albums.length);
+
+    // get last 5 artists
+    const currentArtists = artists?.slice(artists.length - 8, artists.length);
 
     useEffect((): void => {
-    
+        // dispatches all artists to redux state
+        dispatch<any>(index(null));
+
+        dispatch<any>(getAlbums());
     }, []);
+
+    if (artistState.isLoading || albumState.isLoading) {
+        return <Spinner></Spinner>
+    }
 
     return (
         <main style={{
             backgroundColor: "#EFF2F3",
             width: "100%"
         }}>
+
+            <section>
+                <Carousel artists={artists as ArtistState[]}></Carousel>
+            </section>
+
+            <section>
+                <Coverflow></Coverflow>
+            </section>
 
             <Section1>
                 <Container1>
@@ -47,16 +70,18 @@ export default function Main(props: MainProps): ReactElement {
             </Section1>
             <Section2>
                 <Container2>
-                    <Text1>Lorem Espim</Text1>
+
+                    <Text1>New Artists</Text1>
                     <Scroller></Scroller>
-                    <CoverflowB></CoverflowB>
+
+                    <CoverflowB artists={artists as ArtistState[]}></CoverflowB>
                 </Container2>
             </Section2>
             <Section3>
                 <Container3>
-                    <Text1>Lorem Espim</Text1>
-                    <CoverflowC></CoverflowC>
-                    <CoverflowB></CoverflowB>
+                    <Text1>Upcoming Artists</Text1>
+                    <CoverflowC artists={currentArtists?.slice(0, 3) as Array<ArtistState>}></CoverflowC>
+                    <CoverflowB artists={currentArtists?.slice(currentArtists.length - 5, currentArtists.length) as ArtistState[]}></CoverflowB>
                 </Container3>
             </Section3>
         </main>

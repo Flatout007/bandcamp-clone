@@ -1,4 +1,4 @@
-import { createSlice, CreateSliceOptions, current, PayloadAction, Slice, StateFromReducersMapObject } from "@reduxjs/toolkit"
+import { createSlice, CreateSliceOptions, PayloadAction, Slice, StateFromReducersMapObject } from "@reduxjs/toolkit"
 
 const slice: CreateSliceOptions = {
     name: "player",
@@ -12,17 +12,16 @@ const slice: CreateSliceOptions = {
     },
 
     reducers: {
-        reset: (state: StateFromReducersMapObject<any>, action: PayloadAction<any>): void => {
-            state.isPlaying = null;
-            state.isPaused = null;
+        reset: (state: StateFromReducersMapObject<any>): void => {
+            state.isPlaying = false;
+            state.isPaused = true;
             state.currentTrack = null;
         },
-        pauseTrack: (state: StateFromReducersMapObject<any>, action: PayloadAction<any>): void => {
+        pauseTrack: (state: StateFromReducersMapObject<any>): void => {
             state.isPlaying = false;
             state.isPaused = true;
         },
-        playTrack: (state: StateFromReducersMapObject<any>, action: PayloadAction<any>): void => {
-
+        playTrack: (state: StateFromReducersMapObject<any>): void => {
             state.isPlaying = true;
             state.isPaused = false;
             state.isStopped = false;

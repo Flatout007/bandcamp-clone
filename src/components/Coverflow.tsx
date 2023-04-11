@@ -1,7 +1,6 @@
 import styled, { StyledComponent } from "@emotion/styled";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAlbums } from "../redux/async_thunks/albumThunk";
+import { ReactElement, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { AlbumState, RootState } from "../redux/store/store";
 import CoverItem from "./CoverItem";
 
@@ -9,8 +8,6 @@ export interface CoverflowProps {
 }
 
 export default function Coverflow(props: CoverflowProps): ReactElement {
-
-    const dispatch = useDispatch();
 
     const album = useSelector((state: RootState): AlbumState => {
         return state.album;
@@ -24,22 +21,18 @@ export default function Coverflow(props: CoverflowProps): ReactElement {
 
     const albumRef = useRef<Array<any>>([]);
 
+    let currentAlbums: Array<ReactElement> = [];
+
     const randomRange = (min: number, max: number): number => {
         return min + (max - min) * Math.random();
     }
 
     useEffect((): void => {
-        dispatch<any>(getAlbums());
-    }, []);
-
-    useEffect(() => {
-
-        if (!albums)
-        return;
-
+        // animates albums by setting intervals, and clicking a hidden
+        // button that slides the albums.
         let interval = setInterval(() => {
             buttonRef.current?.click();
-        }, randomRange(1000, 8000));
+        }, randomRange(8000, 10000));
 
         containerRef.current?.addEventListener("mouseover", () => {
             clearInterval(interval);
@@ -48,10 +41,10 @@ export default function Coverflow(props: CoverflowProps): ReactElement {
         containerRef.current?.addEventListener("mouseleave", () => {
             interval = setInterval(() => {
                 buttonRef.current?.click();
-            }, randomRange(1000, 8000))
+            }, randomRange(8000, 10000));
         });
 
-    }, [albums]);
+    }, []);
 
     function slide() {
 
@@ -66,6 +59,20 @@ export default function Coverflow(props: CoverflowProps): ReactElement {
 
         container.removeChild(lastChild);
         container.insertBefore(lastChild, container.firstChild);
+    }
+
+    if (albums) {
+        currentAlbums = albums?.map((album: any, i: number) => (
+            <div className="album"
+                key={i}
+                style={{ position: "relative" }}
+                ref={(el: any) => albumRef.current[i] = el}
+            >
+                <CoverItem
+                    key={i}
+                    album={album}
+                />
+            </div>));
     }
 
     return (
@@ -93,17 +100,7 @@ export default function Coverflow(props: CoverflowProps): ReactElement {
                     style={{ scrollBehavior: "smooth" }}
                     ref={containerRef}>
 
-                    {albums.map((album, i) => (
-                        <div className="album"
-                            style={{ position: "relative" }}
-                            ref={(el: any) => albumRef.current[i] = el}
-                        >
-                            <CoverItem
-                                key={i}
-                                album={album}
-                            />
-                        </div>
-                    ))}
+                    {currentAlbums}
 
                 </CoverContainer>
             </Container>
@@ -151,12 +148,12 @@ const CoverContainer: StyledComponent<"div", any> = styled.div`
    margin-left: 16px;
    justify-content: start; 
    gap: 1%;
-   overflow: hidden;
    width: 773px;
    margin-left: auto;
    margin-right: auto;
    height: 250px;
    flex-shrink: 0;
+   overflow: hidden;
 
    @media only screen and (min-width: 1400px) {
        width: 58% !important;

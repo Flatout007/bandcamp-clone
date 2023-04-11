@@ -9,6 +9,7 @@ import { create } from "../../redux/async_thunks/trackThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, TrackState } from "../../redux/store/store";
 import { reset } from "../../redux/slices/trackSlice";
+import { Spinner } from "../Spinner";
 
 export default function TrackForm(): ReactElement {
 
@@ -26,8 +27,8 @@ export default function TrackForm(): ReactElement {
         tracks: [],
         titles: [],
         urls: [],
-        artist_id: album_id as string,
-        album_id: artist_id as string
+        artist_id: artist_id as string,
+        album_id: album_id as string
     });
 
     const [loading, setLoading] = useState<any>({
@@ -42,7 +43,7 @@ export default function TrackForm(): ReactElement {
         count: 0
     });
 
-    const [deleted, setFirebaseRefs] = useState<any>({
+    const [deleted, setDeletedRefs] = useState<any>({
         references: []
     });
 
@@ -55,7 +56,6 @@ export default function TrackForm(): ReactElement {
     const { tracks, titles, urls } = formData;
 
     const navigate = useNavigate();
-
 
     useEffect((): void => {
 
@@ -74,18 +74,16 @@ export default function TrackForm(): ReactElement {
     useEffect(() => {
 
         return () => {
-            setFormData(() => {
+            setFormData((): any => {
                 return {
                     tracks: [],
                     titles: [],
                     urls: [],
-                    artist_id: album_id as string,
-                    album_id: artist_id as string
                 }
-            })
+            });
         }
 
-    }, [album_id, artist_id])
+    }, []);
 
 
     useEffect(() => {
@@ -181,7 +179,7 @@ export default function TrackForm(): ReactElement {
         }
     }
 
-    async function deleteUploadedTracks() {
+    async function deleteUploadedTracks(): Promise<any> {
 
         for (let i = 0; i < deleted.references.length; i++) {
 
@@ -191,7 +189,9 @@ export default function TrackForm(): ReactElement {
         }
 
         // empty the references array after deletion
-        deleted.references = [];
+        setDeletedRefs((): any => {
+            return {references: []};
+        });
     }
 
     function handleUpload(e: BaseSyntheticEvent): void {
@@ -217,7 +217,12 @@ export default function TrackForm(): ReactElement {
         Promise.all(uploadPromises).then(async (snapshots: any): Promise<any> => {
 
             // wait for all urls to be downloaded to maintain track order due to asynchronicity
-            const urls = await Promise.all(snapshots.map((snapshot: any) => getDownloadURL(snapshot.ref)));
+            const urls = await Promise.all(snapshots.map((snapshot: any) => {
+                getDownloadURL(snapshot.ref);
+                setDeletedRefs((prev: any): any => {
+                    return {references: [...prev.references, snapshot.ref]};
+                });
+            }));
 
             setFormData((prevPayload: any): any => {
                 const obj = {
@@ -226,7 +231,7 @@ export default function TrackForm(): ReactElement {
                 };
 
                 return obj;
-            })
+            });
 
         });
     }
@@ -241,8 +246,6 @@ export default function TrackForm(): ReactElement {
             artist_id,
             album_id
         }
-
-        console.log(tracksObject)
 
         if (tracksObject.files.length >= 1)
             dispatch<any>(create(tracksObject));
@@ -304,6 +307,10 @@ export default function TrackForm(): ReactElement {
         }
     }
 
+    if (track.isLoading) {
+        return <Spinner></Spinner>
+    }
+
     return (
         <Div>
             <Container>
@@ -358,8 +365,8 @@ export default function TrackForm(): ReactElement {
                         </DropArea>
                     }
 
-
                     {handleButtons()}
+
                 </Form>
 
             </Container>

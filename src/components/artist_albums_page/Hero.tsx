@@ -11,7 +11,6 @@ export default function HeroComponent(props: HeroComponentProps): ReactElement {
             <Hero
                 style={{
                     background: `url(${props?.photo}) no-repeat`,
-                    
                 }}>
             </Hero>
         </div>

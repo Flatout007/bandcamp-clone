@@ -1,5 +1,4 @@
 import { BaseSyntheticEvent, ReactElement, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { StyledComponent } from 'styled-components';
 import { closeLoginModal, openSignUpModal } from '../../redux/slices/modalSlice';
@@ -15,7 +14,6 @@ export interface LoginProps {
 export default function Login(props: LoginProps): ReactElement {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const [formData, setFormData] = useState<ArtistPayload>({
         email: "",
@@ -140,8 +138,8 @@ export default function Login(props: LoginProps): ReactElement {
 
 const ModalContainer: StyledComponent<"div", any> = styled.div`
     background-color: #ffffffc9;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;

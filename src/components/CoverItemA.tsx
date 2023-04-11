@@ -1,16 +1,21 @@
 import styled, { StyledComponent } from "@emotion/styled";
 import { ReactElement } from "react";
 import { AlbumPayload } from "../types";
+import { NavigateFunction } from "react-router-dom";
 
 
 export interface CoverItemAProps {
   album: AlbumPayload
+  nav: NavigateFunction
 }
 
 export default function CoverItemA(props: CoverItemAProps): ReactElement {
   return (
     <>
-      <Container>
+      <Container onClick={() => {
+        props?.nav(`/albums_songs_page/${props?.album._id}/${props?.album.artist_id}`);
+      }}>
+
         <Cover src={props?.album.artwork}>
         </Cover>
 

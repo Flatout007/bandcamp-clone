@@ -225,8 +225,8 @@ export default function SignIn(props: SignInProps): ReactElement {
 
 const ModalContainer: StyledComponent<"div", any> = styled.div`
     background-color: #ffffffc9;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     z-index: 120;
     position: absolute;
     display: flex;

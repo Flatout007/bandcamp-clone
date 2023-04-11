@@ -5,22 +5,12 @@ import DailyForm from "../components/DailyForm";
 import Main from "../components/Main";
 import NavComponent from "../components/Nav";
 
-export interface IndexProps {
-}
 
-export default class Index extends PureComponent<IndexProps> {
+export default class Index extends PureComponent {
     public render() {
         return (
             <>
                 <NavComponent></NavComponent>
-
-                <section>
-                    <Carousel></Carousel>
-                </section>
-
-                <section>
-                    <Coverflow></Coverflow>
-                </section>
 
                 <section>
                     <Main></Main>

@@ -47,8 +47,6 @@ export default function Player(props: PlayerProps): ReactElement {
         const progressBarWidth = rect.width;
         const percent = (clickX / progressBarWidth) * 100;
 
-        props.setAudioTime(() => percent);
-
         document.addEventListener("mousemove", handleMouseMove);
         document.addEventListener("mouseup", handleMouseUp);
     };
@@ -67,10 +65,10 @@ export default function Player(props: PlayerProps): ReactElement {
 
         props.setAudioTime(() => percent);
 
-        if (!props.audioRef.current) return
+        if (!props.audioRef.current) 
+        return;
 
         props.audioRef.current.currentTime = (percent / 100) * props.audioRef.current.duration;
-
     };
 
     function handleMouseUp(e: any): void {
@@ -87,7 +85,8 @@ export default function Player(props: PlayerProps): ReactElement {
 
         props.setAudioTime(() => percent);
 
-        if (!props.audioRef.current) return
+        if (!props.audioRef.current) 
+        return;
 
         props.audioRef.current.currentTime = (percent / 100) * props.audioRef.current.duration;
 

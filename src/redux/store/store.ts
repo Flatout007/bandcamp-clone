@@ -66,6 +66,14 @@ export type TrackState = {
    message?: string,
 };
 
+/**
+ * @description the state of the modal in the store
+ */
+export type ModalState = {
+   loginModalStatus: boolean,
+   signupModalStatus: boolean
+};
+
 
 /**
  * @description the state of the player in the store
