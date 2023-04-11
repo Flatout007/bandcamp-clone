@@ -14,7 +14,7 @@
 /build
 /node_backend/.env
 /node_backend/node_modules
-/src/services/firebase.ts
+/src/services
 
 # misc
 .DS_Store
