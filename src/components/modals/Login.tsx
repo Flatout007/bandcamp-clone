@@ -7,11 +7,10 @@ import { reset } from "../../redux/slices/artistSlice";
 import { signin } from "../../redux/async_thunks/artistThunk";
 import { ArtistPayload } from '../../types';
 import toast from 'react-hot-toast';
+import { GoogleAuthComponent } from '../GoogleSignIn';
 
-export interface LoginProps {
-}
 
-export default function Login(props: LoginProps): ReactElement {
+export default function Login(): ReactElement {
 
     const dispatch = useDispatch();
 
@@ -47,7 +46,7 @@ export default function Login(props: LoginProps): ReactElement {
 
         if (isSuccess) {
             dispatch(reset(artist));
-            console.log(message);
+            
         } else if (isError) {
             dispatch(reset(artist));
             notifyError();
@@ -65,9 +64,9 @@ export default function Login(props: LoginProps): ReactElement {
 
     function handleOnSubmit(e: BaseSyntheticEvent): void {
 
-        e.preventDefault()
+        e.preventDefault();
 
-        const artist = { email, password }
+        const artist = { email, password };
 
         dispatch<any>(signin(artist));
     }
@@ -124,9 +123,7 @@ export default function Login(props: LoginProps): ReactElement {
                     <HorizontalLineA></HorizontalLineA><Or>Or</Or>
                     <HorizontalLineB></HorizontalLineB>
 
-                    <ProvidersContainer>
-                        <GoogleSignIn></GoogleSignIn>
-                    </ProvidersContainer>
+                    <GoogleAuthComponent></GoogleAuthComponent>
 
                 </ModalInnerContainer>
 
@@ -274,29 +271,5 @@ const HorizontalLineB: StyledComponent<"hr", any> = styled.hr`
    background-color: grey;
    right: 10%;
    top: 70%;
-`;
-const ProvidersContainer: StyledComponent<"div", any> = styled.div`
-   display: flex;
-   justify-content: center;
-   top: 30%;
-   position: relative;
-   width: 16em;
-   flex-direction: column;
-   margin-left: auto;
-   margin-right: auto;
-`;
-const GoogleSignIn: StyledComponent<"button", any> = styled.button`
-   max-width: 25em;
-   height: 4em;
-   background: url("https://cdn.sanity.io/images/ixpw9wpw/production/50f151dfb156b8c0bfbe868996aef3f6999574b2-382x92.png");
-   cursor: pointer;
-   position: relative;
-   background-size: 100% 100%;
-   background-repeat: no-repeat;
-    
-   &:hover {
-    transform: scale(105%);
-    transition: 0.1s ease;
-   }
 `;
 

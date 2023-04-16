@@ -8,14 +8,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store/store';
 import { openLoginModal, openSignUpModal } from '../redux/slices/modalSlice';
 import { logout } from '../redux/async_thunks/artistThunk';
-import { reset } from "../redux/slices/artistSlice";
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-export interface NavProps {
-}
-
-export function NavComponent(props: NavProps): ReactElement {
+export function NavComponent(): ReactElement {
 
   const { artist, isSuccess } = useSelector(function (state: RootState): any {
     return state.artist;
@@ -34,13 +30,6 @@ export function NavComponent(props: NavProps): ReactElement {
   useEffect(() => {
 
   }, [isSuccess, artist, dispatch]);
-
-  useEffect(() => {
-
-    return () => {
-      dispatch(reset(artist));
-    }
-  }, []);
 
   function notifyLogout(): void {
     toast("user logged out", {

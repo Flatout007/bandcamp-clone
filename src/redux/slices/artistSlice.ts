@@ -22,9 +22,8 @@ const slice: CreateSliceOptions = {
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = false;
-            state.message = ""
-        },
-      
+            state.message = "";
+        }
     },
 
     extraReducers: function (builder: ActionReducerMapBuilder<any>): void {
@@ -100,6 +99,7 @@ const slice: CreateSliceOptions = {
                 state.isLoading = false;
                 state.artist = null;
                 state.isSuccess = false;
+                state.google = null;
             })
             .addCase(logout.rejected, (state: StateFromReducersMapObject<RootState["artist"]>, action: PayloadAction<RootState["artist"]>): void => {
                 state.isLoading = false;

@@ -9,7 +9,7 @@ export default class ArtistShow extends PureComponent {
     public render() {
         return (
             <>
-                <div>
+                <div style={{background: "#212121"}}>
                     <main className='artist-profile'>
                         <section>
                             <ProfileNav></ProfileNav>

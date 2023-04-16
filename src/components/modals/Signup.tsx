@@ -1,16 +1,14 @@
 import styled, { StyledComponent } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseSyntheticEvent, ReactElement, useEffect, useRef, useState } from 'react';
-import { closeSignUpModal, openLoginModal } from '../../redux/slices/modalSlice';
+import { closeLoginModal, closeSignUpModal, openLoginModal } from '../../redux/slices/modalSlice';
 import { ArtistState, RootState } from '../../redux/store/store';
 import { signup } from "../../redux/async_thunks/artistThunk";
 import { ArtistPayload } from '../../types';
 import { reset } from '../../redux/slices/artistSlice';
+import { GoogleAuthComponent } from '../GoogleSignIn';
 
-export interface SignInProps {
-}
-
-export default function SignIn(props: SignInProps): ReactElement {
+export default function SignIn(): ReactElement {
 
     const dispatch = useDispatch();
 
@@ -40,13 +38,14 @@ export default function SignIn(props: SignInProps): ReactElement {
 
     useEffect(() => {
 
-    }, []);
-
-    useEffect(() => {
+        if (isSuccess) {
+            closeSignUpModal(null);
+            closeLoginModal(null);
+        }
 
     }, [
-        dispatch, confirmedPassword, email,
-        password, formData, isLoading,
+        confirmedPassword, email,
+        password, isLoading,
         isError, isSuccess, message, bio,
         location, photo
     ]);
@@ -152,6 +151,7 @@ export default function SignIn(props: SignInProps): ReactElement {
     }
 
     function redirectToLogin(): void {
+        dispatch(reset(artist));
         dispatch(closeSignUpModal(null));
         dispatch(openLoginModal(null));
     }
@@ -162,7 +162,13 @@ export default function SignIn(props: SignInProps): ReactElement {
 
                 <Close onClick={function (): void {
                     dispatch(closeSignUpModal(null));
-                }}>X</Close>
+                    dispatch(reset(artist));
+                    setFormData((): any => {
+                        return {};
+                    })
+                }}
+                >X
+                </Close>
 
                 <HeaderContainer>
                     <SignInTextA>Sign Up</SignInTextA>
@@ -172,7 +178,10 @@ export default function SignIn(props: SignInProps): ReactElement {
                 </HeaderContainer>
 
                 <Form method="POST"
-                    onFocus={() => { dispatch<any>(reset(artist)) }}
+                    onFocus={(): void => {
+                        if (isError)
+                            dispatch<any>(reset(artist));
+                    }}
                     onSubmit={(e: BaseSyntheticEvent) => { handleOnSubmit(e) }}
                     onChange={(e: BaseSyntheticEvent) => { handleOnChange(e) }}>
                     <EmailInput type="email" name="email" placeholder='Email Address'></EmailInput>
@@ -214,9 +223,7 @@ export default function SignIn(props: SignInProps): ReactElement {
 
                 <HorizontalLine></HorizontalLine>
 
-                <ProvidersContainer>
-                    <GoogleSignIn></GoogleSignIn>
-                </ProvidersContainer>
+                <GoogleAuthComponent></GoogleAuthComponent>
 
             </ModalInnerContainer>
         </ModalContainer>

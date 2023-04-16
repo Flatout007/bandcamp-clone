@@ -74,19 +74,20 @@ export default function ProfileNav(): ReactElement {
 
     return (
         <div>
+
+            <ModalContainer>
+                {signupModalStatus && <SignUpModal />}
+                {loginModalStatus && <LoginModal />}
+            </ModalContainer>
+
             <Container>
 
                 <FormContainer>
-                    <SvgContainerOuter>
+                    <SvgContainerOuter onClick={(): void => { navigate("/") }}>
                         <SvgContainer>
                             <ProfileLogo style={{ transform: "scale(1.1)" }} />
                         </SvgContainer>
                     </SvgContainerOuter>
-
-                    
-                        {signupModalStatus && <SignUpModal />}
-                        {loginModalStatus && <LoginModal />}
-                    
 
                     <Form>
                         <NavSearch />
@@ -182,6 +183,7 @@ const SvgContainer: StyledComponent<"div", any> = styled.div`
     height: 20px;
     width: 160px;
     margin-left: 10px;
+    cursor: pointer;
 `;
 
 const SvgContainerOuter: StyledComponent<"div", any> = styled.div`
@@ -332,4 +334,8 @@ const Name: StyledComponent<"p", any> = styled.p`
 `;
 const Genre: StyledComponent<"p", any> = styled.p`
    font-size: 0.9rem;
+`;
+const ModalContainer: StyledComponent<"div", any> = styled.div`
+    position: relative;
+    bottom: -30em;
 `;

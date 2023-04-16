@@ -91,18 +91,20 @@ export default function Coverflow(props: CoverflowProps): ReactElement {
             </button>
 
             <Container>
-                <Message>
-                    Selling right now
-                </Message>
-                <CoverContainer
-                    id="DOMContainer"
-                    className="container"
-                    style={{ scrollBehavior: "smooth" }}
-                    ref={containerRef}>
+                <ContentContainer>
+                    <Message>
+                        Selling right now
+                    </Message>
+                    <CoverContainer
+                        id="DOMContainer"
+                        className="container"
+                        style={{ scrollBehavior: "smooth" }}
+                        ref={containerRef}>
 
-                    {currentAlbums}
+                        {currentAlbums}
 
-                </CoverContainer>
+                    </CoverContainer>
+                </ContentContainer>
             </Container>
         </div>
     );
@@ -136,19 +138,19 @@ const Message: StyledComponent<"p", any> = styled.p`
     overflow: hidden;
     margin-bottom: 40px;
     text-align: center;
+    width: 700px;
    
     @media only screen and (min-width: 1400px) {
         text-align: left;
-        min-width: 1250px;
     }
 `;
 
 const CoverContainer: StyledComponent<"div", any> = styled.div`
    display: flex;
    margin-left: 16px;
-   justify-content: start; 
+   justify-content: center;
    gap: 1%;
-   width: 773px;
+   max-width: 670px !important;
    margin-left: auto;
    margin-right: auto;
    height: 250px;
@@ -156,14 +158,26 @@ const CoverContainer: StyledComponent<"div", any> = styled.div`
    overflow: hidden;
 
    @media only screen and (min-width: 1400px) {
-       width: 58% !important;
+       max-width: 1220px !important;
+       justify-content: start;
    }
 `;
 const Container: StyledComponent<"div", any> = styled.div`
+
+      display: flex;
+      justify-content: center;
+      
+
       @media only screen and (min-width: 1400px) {
-        display: flex;
+        /* display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: center; */
       }
+`;
+const ContentContainer: StyledComponent<"div", any> = styled.div`
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    
 `;
 

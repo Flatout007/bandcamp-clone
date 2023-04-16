@@ -1,5 +1,5 @@
 
-import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject, UploadResult } from "firebase/storage";
 import { storage } from "../../services/firebase";
 import { BaseSyntheticEvent, ReactElement, useEffect, useRef, useState } from "react";
 import styled, { StyledComponent } from "styled-components";
@@ -190,7 +190,7 @@ export default function TrackForm(): ReactElement {
 
         // empty the references array after deletion
         setDeletedRefs((): any => {
-            return {references: []};
+            return { references: [] };
         });
     }
 
@@ -212,19 +212,22 @@ export default function TrackForm(): ReactElement {
             const metadata = { contentType: "m4a", customMetadata: { name: titles[i] as string } };
 
             return uploadBytes(reference, file as any, metadata);
-        })
+        });
 
-        Promise.all(uploadPromises).then(async (snapshots: any): Promise<any> => {
+        Promise.all(uploadPromises).then(async (snapshots: Array<UploadResult>): Promise<any> => {
 
             // wait for all urls to be downloaded to maintain track order due to asynchronicity
-            const urls = await Promise.all(snapshots.map((snapshot: any) => {
-                getDownloadURL(snapshot.ref);
+            const urls = await Promise.all(snapshots.map(async (snapshot: UploadResult) => {
+                const url = await getDownloadURL(snapshot.ref);
+
                 setDeletedRefs((prev: any): any => {
-                    return {references: [...prev.references, snapshot.ref]};
+                    return { references: [...prev.references, snapshot.ref] };
                 });
+
+                return url;
             }));
 
-            setFormData((prevPayload: any): any => {
+            setFormData((prevPayload: any) => {
                 const obj = {
                     ...prevPayload,
                     urls
@@ -232,7 +235,6 @@ export default function TrackForm(): ReactElement {
 
                 return obj;
             });
-
         });
     }
 

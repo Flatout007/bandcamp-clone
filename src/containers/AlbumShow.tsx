@@ -19,7 +19,7 @@ export default function AlbumShow(): ReactElement {
 
     function getArtist(id: string): any {
 
-        const artist = artists?.filter((artist: ArtistState): boolean => {
+        const artist = artists?.filter((artist: any): boolean => {
             return artist._id === id;
         });
 
